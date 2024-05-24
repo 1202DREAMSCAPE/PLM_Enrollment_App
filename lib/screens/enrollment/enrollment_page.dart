@@ -3,7 +3,7 @@ import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_subtitle.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
-import '../enrollment_one_screen/enrollment_one_screen.dart'; // ignore_for_file: must_be_immutable
+import 'enrollment_one_screen.dart'; // ignore_for_file: must_be_immutable
 
 class EnrollmentPage extends StatefulWidget {
   @override
@@ -12,6 +12,7 @@ class EnrollmentPage extends StatefulWidget {
 
 class _EnrollmentPageState extends State<EnrollmentPage> {
   String? dropdownValue;
+  bool isCollegeSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +41,20 @@ class _EnrollmentPageState extends State<EnrollmentPage> {
                 margin: EdgeInsets.symmetric(horizontal: 20.h),
                 buttonTextStyle: CustomTextStyles.labelMediumOnPrimaryContainer,
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EnrollmentOneScreen(selectedCollege: dropdownValue ?? ''),
-                    ),
-                  ).then((_) {
-                    // This will be called when you pop back to this page
-                    // You can refresh the state or perform any other action here
-                  });
+                  if (isCollegeSelected) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EnrollmentOneScreen(
+                            selectedCollege: dropdownValue ?? ''),
+                      ),
+                    ).then((_) {
+                      // This will be called when you pop back to this page
+                      // You can refresh the state or perform any other action here
+                    });
+                  } else {
+                    _showWarningDialog(context);
+                  }
                 },
               ),
               SizedBox(height: 5.v)
@@ -74,7 +80,6 @@ class _EnrollmentPageState extends State<EnrollmentPage> {
   Widget _buildColumnselectcol(BuildContext context) {
     return Column(
       children: [
-
         Text(
           "SELECT COLLEGE",
           style: theme.textTheme.titleSmall,
@@ -94,6 +99,7 @@ class _EnrollmentPageState extends State<EnrollmentPage> {
             onChanged: (String? newValue) {
               setState(() {
                 dropdownValue = newValue;
+                isCollegeSelected = true;
               });
             },
             underline: Container(),
@@ -112,19 +118,39 @@ class _EnrollmentPageState extends State<EnrollmentPage> {
             ].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                  child: Container(
-                    padding: EdgeInsets.only(left:10.0),
-                    child: Text(
-                      value,
-                      style: TextStyle(color: Colors.black),
-                    ),
+                child: Container(
+                  padding: EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    value,
+                    style: TextStyle(color: Colors.black),
                   ),
-                  );
+                ),
+              );
             }).toList(),
           ),
         ),
         SizedBox(height: 20),
       ],
+    );
+  }
+
+  void _showWarningDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Warning"),
+          content: Text("Please select a college before submitting."),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

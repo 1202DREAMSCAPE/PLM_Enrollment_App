@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../../widgets/custom_bottom_bar.dart';
-import '../enrollment_page/enrollment_page.dart'; // ignore_for_file: must_be_immutable
+import 'enrollment_page.dart'; // ignore_for_file: must_be_immutable
 
 // ignore_for_file: must_be_immutable
 class EnrollmentContainerScreen extends StatelessWidget {

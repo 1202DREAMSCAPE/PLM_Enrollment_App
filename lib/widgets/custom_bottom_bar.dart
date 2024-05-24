@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/app_export.dart';
-import '../presentation/enrollment_page/enrollment_page.dart';
+import '../screens/enrollment/enrollment_page.dart';
 
 enum BottomBarEnum { Home, Sfe, Enrollment, Admission, Announcement }
 // ignore_for_file: must_be_immutable

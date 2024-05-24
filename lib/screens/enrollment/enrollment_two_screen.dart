@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:seajay_s_application2/presentation/enrollment_one_screen/enrollment_one_screen.dart';
+import 'package:seajay_s_application2/screens/enrollment/enrollment_one_screen.dart';
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_leading_circleimage.dart';
 import '../../widgets/app_bar/appbar_subtitle.dart';
 import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_bottom_bar.dart';
-import '../enrollment_page/enrollment_page.dart'; // Ensure this import is correct
+import 'enrollment_page.dart'; // Ensure this import is correct
 
 class EnrollmentTwoScreen extends StatelessWidget {
   final String selectedYearLevel;

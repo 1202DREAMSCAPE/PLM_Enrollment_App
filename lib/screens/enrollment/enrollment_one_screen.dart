@@ -5,12 +5,13 @@ import '../../widgets/app_bar/appbar_subtitle.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
-import '../enrollment_two_screen/enrollment_two_screen.dart'; // Make sure to import the correct screen
+import 'enrollment_two_screen.dart'; // Make sure to import the correct screen
 
 class EnrollmentOneScreen extends StatefulWidget {
   final String selectedCollege;
 
-  EnrollmentOneScreen({Key? key, required this.selectedCollege}) : super(key: key);
+  EnrollmentOneScreen({Key? key, required this.selectedCollege})
+      : super(key: key);
 
   @override
   _EnrollmentOneScreenState createState() => _EnrollmentOneScreenState();
@@ -59,13 +60,18 @@ class _EnrollmentOneScreenState extends State<EnrollmentOneScreen> {
                 margin: EdgeInsets.symmetric(horizontal: 37.h),
                 buttonTextStyle: CustomTextStyles.labelMediumOnPrimaryContainer,
                 onPressed: () {
-                  // Navigate to EnrollmentTwoScreen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EnrollmentTwoScreen(selectedYearLevel: dropdownValue ?? ''),
-                    ),
-                  );
+                  if (dropdownValue == null) {
+                    _showWarningDialog(context);
+                  } else {
+                    // Navigate to EnrollmentTwoScreen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EnrollmentTwoScreen(
+                            selectedYearLevel: dropdownValue ?? ''),
+                      ),
+                    );
+                  }
                 },
               ),
               SizedBox(height: 5.v)
@@ -107,38 +113,65 @@ class _EnrollmentOneScreenState extends State<EnrollmentOneScreen> {
             style: theme.textTheme.titleSmall,
           ),
           SizedBox(height: 13.v),
-            Container(
-              decoration: BoxDecoration(
+          Container(
+            decoration: BoxDecoration(
               border: Border.all(color: Colors.yellow, width: 3.0),
               borderRadius: BorderRadius.circular(10),
-              ),
-                  child: DropdownButton<String>(
-                  isExpanded: true,
-                  value: dropdownValue,
-
-                  hint: Text("    Select Year Level"),
-
-                  onChanged: (String? newValue) {setState(() {
-                  dropdownValue = newValue; });},
-                  underline: Container(),
-
-                  items: <String>['1st Year', '2nd Year', '3rd Year', '4th Year', '5th Year', '6th Year'].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                        value: value,
-                          child: Container(
-                            padding: EdgeInsets.only(left:10.0),
-                          child: Text(
-                        value,
-                        style: TextStyle(color: Colors.black),
-                              ),
-                             ),
-                            );
-                          }).toList(),
-                        ),
             ),
+            child: DropdownButton<String>(
+              isExpanded: true,
+              value: dropdownValue,
+              hint: Text("    Select Year Level"),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue;
+                });
+              },
+              underline: Container(),
+              items: <String>[
+                '1st Year',
+                '2nd Year',
+                '3rd Year',
+                '4th Year',
+                '5th Year',
+                '6th Year'
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Container(
+                    padding: EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      value,
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
           SizedBox(height: 20),
         ],
       ),
     );
-      }
-    }
+  }
+
+  void _showWarningDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Warning"),
+          content: Text("Please select a year level before submitting."),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}

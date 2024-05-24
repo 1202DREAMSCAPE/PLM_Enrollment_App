@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import '../core/app_export.dart';
-import '../presentation/enrollment_container_screen/enrollment_container_screen.dart';
-import '../presentation/enrollment_one_screen/enrollment_one_screen.dart';
-import '../presentation/enrollment_two_screen/enrollment_two_screen.dart'; // ignore_for_file: must_be_immutable
+import '../screens/enrollment/enrollment_container_screen.dart';
+import '../screens/enrollment/enrollment_one_screen.dart';
+import '../screens/enrollment/enrollment_two_screen.dart';
 
-// ignore_for_file: must_be_immutable
 class AppRoutes {
   static const String enrollmentPage = '/enrollment_page';
 
