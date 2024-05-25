@@ -40,6 +40,9 @@ class _EnrollmentPageState extends State<EnrollmentPage> {
                 text: "SUBMIT",
                 margin: EdgeInsets.symmetric(horizontal: 20.h),
                 buttonTextStyle: CustomTextStyles.labelMediumOnPrimaryContainer,
+                buttonStyle: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0XFF006699),
+                ),
                 onPressed: () {
                   if (isCollegeSelected) {
                     Navigator.push(
@@ -76,26 +79,25 @@ class _EnrollmentPageState extends State<EnrollmentPage> {
     );
   }
 
-  /// Section Widget
   Widget _buildColumnselectcol(BuildContext context) {
     return Column(
       children: [
         Text(
           "SELECT COLLEGE",
-          style: theme.textTheme.titleSmall,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         SizedBox(height: 12),
         Container(
+          width: double.infinity,
+          height: 60.0,
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.yellow, width: 3.0),
+            border: Border.all(color: Color.fromRGBO(0, 102, 153, 100), width: 3.0),
             borderRadius: BorderRadius.circular(10),
           ),
           child: DropdownButton<String>(
             isExpanded: true,
             value: dropdownValue,
-            // Set to null for an empty default value
-            hint: Text("    Select a college"),
-            // Displayed when the dropdown is not expanded
+            hint: Text("    Select College"),
             onChanged: (String? newValue) {
               setState(() {
                 dropdownValue = newValue;
@@ -103,47 +105,66 @@ class _EnrollmentPageState extends State<EnrollmentPage> {
               });
             },
             underline: Container(),
-            // Remove the underline
             items: <String>[
               'College of Architecture and Urban Planning',
               'College of Education',
               'College of Engineering and Technology',
-              'College of Information System & Technology Management',
-              'College of Humanities, Arts, and Social Sciences',
               'College of Nursing',
               'College of Physical Therapy',
+              'College of Information System & Technology Management',
               'College of Science',
               'PLM Business School',
+              'College of Humanities, Arts, and Social Sciences',
               'School of Government',
             ].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
-                child: Container(
-                  padding: EdgeInsets.only(left: 10.0),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Text(
                     value,
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(
+                      color: Colors.black,
+                      height: 1.2,
+                    ),
                   ),
                 ),
               );
             }).toList(),
           ),
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 10),
       ],
     );
   }
+
 
   void _showWarningDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Warning"),
-          content: Text("Please select a college before submitting."),
+          backgroundColor: Colors.white,
+          title: Text(
+            "Warning",
+            style: TextStyle(
+              color: Color(0xFF006699),
+            ),
+          ),
+          content: Text(
+            "Please select a college before submitting.",
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
           actions: <Widget>[
             TextButton(
-              child: Text("OK"),
+              child: Text(
+                "OK",
+                style: TextStyle(
+                  color: Color(0xFF006699),
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },

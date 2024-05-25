@@ -9,14 +9,13 @@ ThemeData get theme => ThemeHelper().themeData();
 /// Helper class for managing themes and colors.
 // ignore_for_file: must_be_immutable
 
-// ignore_for_file: must_be_immutable
 class ThemeHelper {
   // A map of custom color themes supported by the app
   Map<String, PrimaryColors> _supportedCustomColor = {
     'primary': PrimaryColors()
   };
 
-// A map of color schemes supported by the app
+  // A map of color schemes supported by the app
   Map<String, ColorScheme> _supportedColorScheme = {
     'primary': ColorSchemes.primaryColorScheme
   };
@@ -71,49 +70,49 @@ class ThemeHelper {
 /// Class containing the supported text theme styles.
 class TextThemes {
   static TextTheme textTheme(ColorScheme colorScheme) => TextTheme(
-        headlineSmall: TextStyle(
-          color: colorScheme.primary,
-          fontSize: 24.fSize,
-          fontFamily: 'Roboto',
-          fontWeight: FontWeight.w700,
-        ),
-        labelLarge: TextStyle(
-          color: colorScheme.onPrimaryContainer,
-          fontSize: 12.fSize,
-          fontFamily: 'Lato',
-          fontWeight: FontWeight.w700,
-        ),
-        labelMedium: TextStyle(
-          color: colorScheme.errorContainer,
-          fontSize: 10.fSize,
-          fontFamily: 'Lato',
-          fontWeight: FontWeight.w700,
-        ),
-        titleLarge: TextStyle(
-          color: appTheme.black900,
-          fontSize: 20.fSize,
-          fontFamily: 'Lato',
-          fontWeight: FontWeight.w700,
-        ),
-        titleMedium: TextStyle(
-          color: colorScheme.onPrimaryContainer,
-          fontSize: 16.fSize,
-          fontFamily: 'Lato',
-          fontWeight: FontWeight.w700,
-        ),
-        titleSmall: TextStyle(
-          color: colorScheme.primaryContainer,
-          fontSize: 15.fSize,
-          fontFamily: 'Lato',
-          fontWeight: FontWeight.w700,
-        ),
-      );
+    headlineSmall: TextStyle(
+      color: colorScheme.primary,
+      fontSize: 24.fSize,
+      fontFamily: 'Roboto',
+      fontWeight: FontWeight.w700,
+    ),
+    labelLarge: TextStyle(
+      color: colorScheme.onPrimaryContainer,
+      fontSize: 12.fSize,
+      fontFamily: 'Lato',
+      fontWeight: FontWeight.w700,
+    ),
+    labelMedium: TextStyle(
+      color: colorScheme.errorContainer,
+      fontSize: 10.fSize,
+      fontFamily: 'Lato',
+      fontWeight: FontWeight.w700,
+    ),
+    titleLarge: TextStyle(
+      color: appTheme.black900,
+      fontSize: 20.fSize,
+      fontFamily: 'Lato',
+      fontWeight: FontWeight.w700,
+    ),
+    titleMedium: TextStyle(
+      color: colorScheme.onPrimaryContainer,
+      fontSize: 16.fSize,
+      fontFamily: 'Lato',
+      fontWeight: FontWeight.w700,
+    ),
+    titleSmall: TextStyle(
+      color: colorScheme.primaryContainer,
+      fontSize: 15.fSize,
+      fontFamily: 'Lato',
+      fontWeight: FontWeight.w700,
+    ),
+  );
 }
 
 /// Class containing the supported color schemes.
 class ColorSchemes {
   static final primaryColorScheme = ColorScheme.light(
-    primary: Color(0XFFE9B700),
+    primary: Color(0xFF006699), // Updated to the desired color
     primaryContainer: Color(0XFFA31920),
     secondaryContainer: Color(0XFF62DF6E),
     errorContainer: Color(0XFF6F6F6F),
