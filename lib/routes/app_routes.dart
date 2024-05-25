@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../core/app_export.dart';
 import '../screens/enrollment/enrollment_container_screen.dart';
 import '../screens/enrollment/enrollment_one_screen.dart';
 import '../screens/enrollment/enrollment_two_screen.dart';
@@ -19,7 +18,7 @@ class AppRoutes {
   static Map<String, WidgetBuilder> routes = {
     enrollmentContainerScreen: (context) => EnrollmentContainerScreen(),
     enrollmentOneScreen: (context) => EnrollmentOneScreen(selectedCollege: '',),
-    enrollmentTwoScreen: (context) => EnrollmentTwoScreen(selectedYearLevel: '',),
+    enrollmentTwoScreen: (context) => EnrollmentTwoScreen(selectedYearLevel: '', selectedCollege: ''),
     initialRoute: (context) => EnrollmentContainerScreen()
   };
 }

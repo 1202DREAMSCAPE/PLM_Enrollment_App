@@ -39,7 +39,7 @@ class _EnrollmentPageState extends State<EnrollmentPage> {
               CustomElevatedButton(
                 text: "SUBMIT",
                 margin: EdgeInsets.symmetric(horizontal: 20.h),
-                buttonTextStyle: CustomTextStyles.labelMediumOnPrimaryContainer,
+                buttonTextStyle: CustomTextStyles.labelMediumOnPrimaryContainer.copyWith(fontSize: 16.0),
                 buttonStyle: ElevatedButton.styleFrom(
                   backgroundColor: Color(0XFF006699),
                 ),
@@ -52,8 +52,7 @@ class _EnrollmentPageState extends State<EnrollmentPage> {
                             selectedCollege: dropdownValue ?? ''),
                       ),
                     ).then((_) {
-                      // This will be called when you pop back to this page
-                      // You can refresh the state or perform any other action here
+
                     });
                   } else {
                     _showWarningDialog(context);
@@ -137,7 +136,6 @@ class _EnrollmentPageState extends State<EnrollmentPage> {
       ],
     );
   }
-
 
   void _showWarningDialog(BuildContext context) {
     showDialog(

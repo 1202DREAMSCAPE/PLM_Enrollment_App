@@ -1,10 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:seajay_s_application2/screens/enrollment/enrollment_one_screen.dart';
 import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_leading_circleimage.dart';
 import '../../widgets/app_bar/appbar_subtitle.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 class StudentDataSource extends DataTableSource {
   final List<Student> students;
@@ -21,7 +25,7 @@ class StudentDataSource extends DataTableSource {
         InkWell(
           onTap: () => onSelect(student),
           child: Container(
-            width: 150.0, // Adjust the width as needed
+            width: 150.0,
             child: Text(
               student.name,
               style: TextStyle(fontSize: 14, height: 1.2),
@@ -71,8 +75,9 @@ class Student {
 
 class EnrollmentTwoScreen extends StatefulWidget {
   final String selectedYearLevel;
+  final String selectedCollege;
 
-  EnrollmentTwoScreen({Key? key, required this.selectedYearLevel}) : super(key: key);
+  EnrollmentTwoScreen({Key? key, required this.selectedYearLevel, required this.selectedCollege}) : super(key: key);
 
   @override
   _EnrollmentTwoScreenState createState() => _EnrollmentTwoScreenState();
@@ -209,7 +214,7 @@ class _EnrollmentTwoScreenState extends State<EnrollmentTwoScreen> {
               Text("STUDENT NAME: ${student.name}", style: TextStyle(fontWeight: FontWeight.bold)),
               Divider(color: Colors.black),
               ...student.steps.map((step) => _buildStepDetail(step.step, step.description, step.status)).toList(),
-              _buildStepDetail("STATUS", "Enrolled?", student.status == "Enrolled" ? "ENROLLED" : "NOT ENROLLED"),
+              _buildStepDetail("Status", "Enrolled?", student.status == "Enrolled" ? "ENROLLED" : "NOT ENROLLED"),
             ],
           ),
           actions: [
@@ -237,6 +242,55 @@ class _EnrollmentTwoScreenState extends State<EnrollmentTwoScreen> {
         ],
       ),
     );
+  }
+
+  void _generatePdf() async {
+    final pdf = pw.Document();
+    final List<pw.TableRow> rows = [];
+
+    // Add the header
+    rows.add(
+      pw.TableRow(
+        children: [
+          pw.Text(' Number', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+          pw.Text(' Name', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+          pw.Text(' Status', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+        ],
+      ),
+    );
+
+    for (var student in filteredStudents) {
+      rows.add(
+        pw.TableRow(
+          children: [
+            pw.Text( " " + student.number),
+            pw.Text(" " + student.name),
+            pw.Text(" " + student.status),
+          ],
+        ),
+      );
+    }
+
+    pdf.addPage(
+      pw.Page(
+        build: (context) => pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Text(
+              'College: ${widget.selectedCollege}\nYear Level: ${widget.selectedYearLevel}',
+              style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 18),
+            ),
+            pw.SizedBox(height: 20),
+            pw.Table(
+              border: pw.TableBorder.all(),
+              children: rows,
+            ),
+          ],
+        ),
+      ),
+    );
+
+    await Printing.layoutPdf(onLayout: (PdfPageFormat format) async => pdf.save());
   }
 
   @override
@@ -359,7 +413,7 @@ class _EnrollmentTwoScreenState extends State<EnrollmentTwoScreen> {
                             InkWell(
                               onTap: () => _showStudentDetails(student),
                               child: Container(
-                                width: 150.0, // Adjust the width as needed
+                                width: 150.0,
                                 child: Text(
                                   student.name,
                                   style: TextStyle(fontSize: 14, height: 1.2),
@@ -390,21 +444,36 @@ class _EnrollmentTwoScreenState extends State<EnrollmentTwoScreen> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _scrollController.animateTo(
-              0.0,
-              duration: Duration(seconds: 1),
-              curve: Curves.easeInOut,
-            );
-          },
-          child: Icon(Icons.arrow_upward),
+        floatingActionButton: SpeedDial(
+          animatedIcon: AnimatedIcons.menu_close,
           backgroundColor: Color(0XFF006699),
+          overlayOpacity: 0,
+          children: [
+            SpeedDialChild(
+              child: Icon(Icons.arrow_upward),
+              //label: 'Go Up',
+              labelBackgroundColor: Color(0XFF006699),
+              labelStyle: TextStyle(color: Colors.white),
+              onTap: () {
+                _scrollController.animateTo(
+                  0.0,
+                  duration: Duration(seconds: 1),
+                  curve: Curves.easeInOut,
+                );
+              },
+            ),
+            SpeedDialChild(
+              child: Icon(Icons.picture_as_pdf),
+              label: 'Print PDF',
+              labelBackgroundColor: Color(0XFF006699),
+              labelStyle: TextStyle(color: Colors.white),
+              onTap: _generatePdf,
+            ),
+          ],
         ),
       ),
     );
   }
-
 
   PreferredSizeWidget _buildAppbar(BuildContext context) {
     return CustomAppBar(

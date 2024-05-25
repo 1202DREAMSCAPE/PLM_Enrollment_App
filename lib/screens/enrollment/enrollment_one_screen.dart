@@ -3,7 +3,6 @@ import '../../core/app_export.dart';
 import '../../widgets/app_bar/appbar_leading_circleimage.dart';
 import '../../widgets/app_bar/appbar_subtitle.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
-import '../../widgets/custom_bottom_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
 import 'enrollment_two_screen.dart'; // Make sure to import the correct screen
 
@@ -58,7 +57,7 @@ class _EnrollmentOneScreenState extends State<EnrollmentOneScreen> {
               CustomElevatedButton(
                 text: "SUBMIT",
                 margin: EdgeInsets.symmetric(horizontal: 37.h),
-                buttonTextStyle: CustomTextStyles.labelMediumOnPrimaryContainer,
+                buttonTextStyle: CustomTextStyles.labelMediumOnPrimaryContainer.copyWith(fontSize: 16.0),
                 buttonStyle: ElevatedButton.styleFrom(
                   backgroundColor: Color(0XFF006699),
                 ),
@@ -71,7 +70,9 @@ class _EnrollmentOneScreenState extends State<EnrollmentOneScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => EnrollmentTwoScreen(
-                            selectedYearLevel: dropdownValue ?? ''),
+                          selectedYearLevel: dropdownValue ?? '',
+                          selectedCollege: widget.selectedCollege,
+                        ),
                       ),
                     );
                   }
@@ -119,7 +120,7 @@ class _EnrollmentOneScreenState extends State<EnrollmentOneScreen> {
             width: double.infinity,
             height: 60.0,
             decoration: BoxDecoration(
-              border: Border.all(color:  Color.fromRGBO(0, 102, 153, 100), width: 3.0),
+              border: Border.all(color: Color.fromRGBO(0, 102, 153, 100), width: 3.0),
               borderRadius: BorderRadius.circular(10),
             ),
             child: DropdownButton<String>(
@@ -149,19 +150,18 @@ class _EnrollmentOneScreenState extends State<EnrollmentOneScreen> {
                       style: TextStyle(
                         color: Colors.black,
                         height: 1.2,
+                      ),
                     ),
                   ),
-                ),
                 );
               }).toList(),
+            ),
           ),
-    ),
-      SizedBox(height: 10),
-      ],
-      )
+          SizedBox(height: 10),
+        ],
+      ),
     );
   }
-
 
   void _showWarningDialog(BuildContext context) {
     showDialog(
